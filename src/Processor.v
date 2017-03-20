@@ -18,21 +18,22 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module Processor(clk);
+module Processor(clk,ACOUT,RAMOUTBUS,ADDBUS,CONTROL);
 	input clk;
+	input [7:0]RAMOUTBUS;
+	output [9:0]ACOUT;
+	output [14:0]ADDBUS;
+	output [5:6]CONTROL;
 	wire FLAGIN,FLAGOUT;
 	wire [2:0]ALUI;
-	wire [9:0] ACOUT;
-	wire [14:0] MDRMAR;
-	wire [7:0] MDRALU;
-	wire [14:0] MDRPC;
-	wire [3:0] MDRIR;
-	wire [3:0] IRBUS;
-	wire [14:0] PCMAR;
-	wire [9:0] ALUOUT;
-	wire [14:0] ADDBUS;
-	wire [7:0] RAMOUTBUS;
-	wire [16:0] CONTROL;
+	wire [14:0]MDRMAR;
+	wire [7:0]MDRALU;
+	wire [14:0]MDRPC;
+	wire [3:0]MDRIR;
+	wire [3:0]IRBUS;
+	wire [14:0]PCMAR;
+	wire [9:0]ALUOUT;
+	wire [16:0]CONTROL;
 
 	
 	ControlUnit controlunit(IRBUS,FLAGOUT,CONTROL,clk);
@@ -43,6 +44,5 @@ module Processor(clk);
 	IR ir(MDRIR,IRBUS,clk,CONTROL[4]);
 	MAR mar(MDRMAR,PCMAR,ADDBUS,clk,CONTROL[11],CONTROL[10]);
 	MDR mdr(RAMOUTBUS,MDRMAR,MDRALU,MDRPC,MDRIR,clk,CONTROL[9],CONTROL[8],CONTROL[7]);
-	RAM ram(ADDBUS,ACOUT[7:0],RAMOUTBUS,clk,CONTROL[5],CONTROL[6]);
 
 endmodule

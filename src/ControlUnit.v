@@ -26,13 +26,13 @@ module ControlUnit(opcode,flag,signals,clk);
 	reg [4:0]state;
 	
 	parameter READ 	= 4'b0001;
-	parameter WRITE 	= 4'b0010;
+	parameter WRITE = 4'b0010;
 	parameter JPNZ 	= 4'b0011;
 	parameter CLAC 	= 4'b0100;
-	parameter ADD 		= 4'b0101;
-	parameter SUB 		= 4'b0110;
+	parameter ADD 	= 4'b0101;
+	parameter SUB 	= 4'b0110;
 	parameter SHIFT	= 4'b0111;
-	parameter INC 		= 4'b1000;
+	parameter INC 	= 4'b1000;
 
 
 	
