@@ -3,32 +3,33 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    20:46:03 08/07/2016 
+// Create Date: 03/31/2017 08:51:06 AM
 // Design Name: 
-// Module Name:    Z 
+// Module Name: R
 // Project Name: 
 // Target Devices: 
-// Tool versions: 
+// Tool Versions: 
 // Description: 
-//
+// 
 // Dependencies: 
-//
-// Revision: 
+// 
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
-//
+// Additional Comments:
+// 
 //////////////////////////////////////////////////////////////////////////////////
-module Z(in1,out1,clk,clear);
-	input clk,clear;
-	input in1;
-	output out1;
-	reg out1;
+
+
+module R(in1,out1,clk,re);
+	input clk,re;
+	input [7:0]in1;
+	output [7:0]out1;
+	reg [7:0]out1;
 	
-	always @(posedge clk)
+	always @(clk)
     begin
-		if(clear)
-			out1 <= 1'b0;
-		else
+		if (re)
 			out1 <= in1;
 	end
+	
 endmodule

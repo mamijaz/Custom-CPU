@@ -21,8 +21,8 @@
 module ControlUnit(opcode,flag,signals,clk);
 	input [3:0]opcode;
 	input flag,clk;
-	output [16:0]signals;
-	reg [16:0]signals;
+	output [13:0]signals;
+	reg [13:0]signals;
 	reg [4:0]state;
 	
 	parameter READ 	= 4'b0001;
@@ -33,107 +33,142 @@ module ControlUnit(opcode,flag,signals,clk);
 	parameter SUB 	= 4'b0110;
 	parameter SHIFT	= 4'b0111;
 	parameter INC 	= 4'b1000;
-
-
 	
 	initial
 	begin
-		state=5'b000001;
-		signals=17'b0;
+		state <=5'b00001;
+		signals <= 14'b00001000000000;
 	end
 	
 	always @(posedge clk)
 		begin
 		case (state)
 			1:begin
-				signals <= 17'b00100100000000000;
-				state=2;
+				signals <= 14'b10000100000000;
+				state <=2;
 			end
 			2:begin
-				signals <= 17'b10000011001000000;
-				state=3;
+				signals <= 14'b00001000010000;
+				state <=3;
 			end
 			3:begin
-				signals <= 17'b00100100100010000;
 				if(opcode==READ || opcode==WRITE)
-					state=4;
+				begin
+				    signals <= 14'b10000100000000;
+					state <=4;
+				end
 				else if(opcode==CLAC)
-					state=10;
+				begin
+				    signals <= 14'b00000000001000;
+					state <=11;
+				end
 				else if(opcode==ADD)
-					state=11;
+				begin
+				    signals <= 14'b00100000000001;
+					state <=12;
+				end
 				else if(opcode==SUB)
-					state=12;
+				begin
+				    signals <= 14'b00100000000010;
+					state <=13;
+				end
 				else if(opcode==SHIFT)
-					state=13;
+				begin
+				    signals <= 14'b00100000000100;
+					state <=14;
+				end
 				else if(opcode==INC)
-					state=14;
+				begin
+				    signals <= 14'b00100000000011;
+					state <=15;
+				end
 				else if(opcode==JPNZ)
 					if(flag)
-						state=4;
+					begin
+					    signals <= 14'b10000100000000;
+						state <=4;
+					end
 					else
-						state=16;
+					begin
+					    signals <= 14'b10000000000000;
+						state <=17;
+					end
 			end
 			4:begin
-				signals <= 17'b10000011001000000;
-				state=5;
+			    signals <= 14'b00001010000000;
+				state <=5;
 			end
 			5:begin
-				signals <= 17'b00100100010000000;
-				state=6;
+			    signals <= 14'b10000100000000;
+				state <=6;
 			end
 			6:begin
-				signals <= 17'b10000011001000000;
 				if(opcode==READ || opcode==WRITE)
-					state=7;
+				begin
+				    signals <= 14'b00010000000000;
+					state <=7;
+				end
 				else if(opcode==JPNZ)
-					state=15;
+				begin
+				    signals <= 14'b01000000000000;
+					state <=16;
+				end
 			end
 			7:begin
-				signals <= 17'b00000100100000000;
 				if(opcode==READ)
-					state=8;
+				begin
+				    signals <= 14'b00000100000000;
+					state <=8;
+				end
 				else if(opcode==WRITE)
-					state=9;
+				begin
+				    signals <= 14'b00000000100000;
+					state <=10;
+				end
 			end
 			8:begin
-				signals <= 17'b00000011001000000;
-				state=1;
+				signals <= 14'b00000001000000;
+				state <=9;
 			end
 			9:begin
-				signals <= 17'b00001010000100000;
-				state=1;
-			end
+                signals <= 14'b00001000000000;
+                state <=1;
+            end
 			10:begin
-				signals <= 17'b00010000000001000;
-				state=1;
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 			11:begin
-				signals <= 17'b00010000000000001;
-				state=1;
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 			12:begin
-				signals <= 17'b00010000000000010;
-				state=1;
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 			13:begin
-				signals <= 17'b00010000000000100;
-				state=1;
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 			14:begin
-				signals <= 17'b00010000000000011;
-				state=1;
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 			15:begin
-				signals <= 17'b01000000100000000;
-				state=1;
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 			16:begin
-				signals <= 17'b10000000000000000;
-				state=17;
+			    signals <= 14'b00001000000000;
+				state <=1;
 			end
 			17:begin
-				signals <= 17'b10000000000000000;
-				state=1;
+				signals <= 14'b10000000000000;
+				state <=17;
+			end
+			18:begin
+				signals <= 14'b00001000000000;
+				state <=1;
 			end
 		endcase
 	end

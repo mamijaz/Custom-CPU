@@ -18,20 +18,18 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module AC(in1,out1,clk,re,we,clear);
-	input clk,re,we,clear;
+module AC(in1,out1,clk,re,clear);
+	input clk,re,clear;
 	input [9:0]in1;
 	output [9:0]out1;
-	reg [9:0]store;
 	reg [9:0]out1;
 	
 	always @(posedge clk)
-   begin
+    begin
 		if (re)
-			store <= in1;
-		if(we)
-			out1 <= store;
+			out1 <= in1;
 		if(clear)
 			out1 <= 10'b0;
 	end
+	
 endmodule

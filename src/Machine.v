@@ -24,10 +24,10 @@ module Machine(clk,ACOUT);
     input clk;
 	output [7:0]ACOUT;
 	wire [14:0]ADDBUS;
-	wire [5:6]CONTROL;
+	wire [13:0]CONTROL;
 	wire [7:0]RAMOUTBUS;
 	
     Processor processor(clk,ACOUT,RAMOUTBUS,ADDBUS,CONTROL);
-    RAM ram(ADDBUS,ACOUT[7:0],RAMOUTBUS,clk,CONTROL[5],CONTROL[6]);
+    RAM ram(ADDBUS,ACOUT[7:0],RAMOUTBUS,clk,CONTROL[5]);
     
 endmodule

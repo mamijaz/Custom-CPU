@@ -30,7 +30,7 @@ module ControlUnittest;
 	reg clk;
 
 	// Outputs
-	wire [16:0] signals;
+	wire [11:0] signals;
 
 	// Instantiate the Unit Under Test (UUT)
 	ControlUnit uut (

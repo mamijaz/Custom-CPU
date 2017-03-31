@@ -28,7 +28,6 @@ module ACtest;
 	reg [9:0] in1;
 	reg clk;
 	reg re;
-	reg we;
 	reg clear;
 
 	// Outputs
@@ -40,7 +39,6 @@ module ACtest;
 		.out1(out1), 
 		.clk(clk), 
 		.re(re), 
-		.we(we), 
 		.clear(clear)
 	);
 
@@ -49,7 +47,6 @@ module ACtest;
 		in1 = 0;
 		clk = 0;
 		re = 0;
-		we = 0;
 		clear = 0;
 
 		// Wait 100 ns for global reset to finish

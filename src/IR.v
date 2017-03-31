@@ -24,9 +24,10 @@ module IR(in1,out1,clk,re);
 	output [3:0]out1;
 	reg [3:0]out1;
 	
-	always @(posedge clk)
-   begin
+	always @(clk)
+    begin
 		if (re)
 			out1 <= in1;
 	end
+	
 endmodule

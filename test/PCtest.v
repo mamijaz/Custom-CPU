@@ -28,7 +28,6 @@ module PCtest;
 	reg [14:0] in1;
 	reg clk;
 	reg re;
-	reg we;
 	reg inc;
 
 	// Outputs
@@ -40,7 +39,6 @@ module PCtest;
 		.out1(out1), 
 		.clk(clk), 
 		.re(re), 
-		.we(we), 
 		.inc(inc)
 	);
 
@@ -49,7 +47,6 @@ module PCtest;
 		in1 = 0;
 		clk = 0;
 		re = 0;
-		we = 0;
 		inc = 0;
 
 		// Wait 100 ns for global reset to finish
@@ -64,11 +61,9 @@ module PCtest;
 		
 		#100
 		clk=1;
-		we=1;
 		
 		#100
 		clk=0;
-		we=0;
 		
 		#100
 		clk=1;
@@ -80,7 +75,6 @@ module PCtest;
 		
 		#100
 		clk=1;
-		we=1;
 		
         
 		// Add stimulus here

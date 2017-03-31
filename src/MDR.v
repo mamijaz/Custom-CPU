@@ -18,29 +18,30 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module MDR(in1,out1,out2,out3,out4,clk,re,we,shift);
-	input clk,re,we,shift;
+module MDR(in1,out1,out2,out3,out4,clk,re,shift);
+	input clk,re,shift;
 	input [7:0]in1;
 	output [14:0]out1;
 	output [7:0]out2;
 	output [14:0]out3;
 	output [3:0]out4;
 	reg [14:0]store;
-	reg [14:0]out1;
-	reg [7:0]out2;
-	reg [14:0]out3;
-	reg [3:0]out4;
+	wire [14:0]out1;
+	wire [7:0]out2;
+	wire [14:0]out3;
+	wire [3:0]out4;
 	
 	always @(posedge clk)
-   begin
+    begin
 		if (re)
 			store[7:0] <= in1;
 		else if (shift)
 			store <= store<<8;
-		else if(we)
-			out1 <= store;
-			out2 <= store[7:0];
-			out3 <= store;
-			out4 <= store[3:0];
 	end
+	
+	assign out1 = store;
+    assign out2 = store[7:0];
+    assign out3 = store;
+    assign out4 = store[3:0];
+    
 endmodule

@@ -29,7 +29,6 @@ module MARtest;
 	reg [14:0] in2;
 	reg clk;
 	reg re;
-	reg we;
 
 	// Outputs
 	wire [14:0] out1;
@@ -40,8 +39,7 @@ module MARtest;
 		.in2(in2), 
 		.out1(out1), 
 		.clk(clk), 
-		.re(re), 
-		.we(we)
+		.re(re) 
 	);
 
 	initial begin
@@ -50,7 +48,6 @@ module MARtest;
 		in2 = 0;
 		clk = 0;
 		re = 0;
-		we = 0;
 
 		// Wait 100 ns for global reset to finish
 		#100;

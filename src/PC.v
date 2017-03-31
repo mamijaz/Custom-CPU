@@ -18,11 +18,10 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module PC(in1,out1,clk,re,we,inc);
-	input clk,re,we,inc;
+module PC(in1,out1,clk,re,inc);
+	input clk,re,inc;
 	input [14:0]in1;
 	output [14:0]out1;
-	reg [14:0]store;
 	reg [14:0]out1;
 	
 	initial
@@ -31,12 +30,10 @@ module PC(in1,out1,clk,re,we,inc);
 	end
 	
 	always @(posedge clk)
-   begin
+    begin
 		if (re)
-			store <= in1;
-		if(we)
-			out1 <= store;
-		if(inc)
-			store <= store + 1'b1;
+			out1 <= in1;
+		if (inc)
+			out1 <= out1 + 1'b1;
 	end
 endmodule

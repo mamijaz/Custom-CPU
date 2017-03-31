@@ -28,7 +28,6 @@ module MDRtest;
 	reg [7:0] in1;
 	reg clk;
 	reg re;
-	reg we;
 	reg shift;
 
 	// Outputs
@@ -46,7 +45,6 @@ module MDRtest;
 		.out4(out4), 
 		.clk(clk), 
 		.re(re), 
-		.we(we), 
 		.shift(shift)
 	);
 
