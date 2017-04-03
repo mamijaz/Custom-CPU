@@ -18,17 +18,18 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module Z(in1,out1,clk,clear);
-	input clk,clear;
+module Z(in1,out1,clk,re,clear);
+	input clk,re,clear;
 	input in1;
 	output out1;
 	reg out1;
 	
 	always @(posedge clk)
     begin
+        if(re)
+            out1 <= in1;
 		if(clear)
 			out1 <= 1'b0;
-		else
-			out1 <= in1;
 	end
+	
 endmodule

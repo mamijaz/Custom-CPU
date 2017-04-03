@@ -25,13 +25,13 @@
 module ACtest;
 
 	// Inputs
-	reg [9:0] in1;
+	reg [15:0] in1;
 	reg clk;
 	reg re;
 	reg clear;
 
 	// Outputs
-	wire [9:0] out1;
+	wire [15:0] out1;
 
 	// Instantiate the Unit Under Test (UUT)
 	AC uut (

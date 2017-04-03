@@ -20,16 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 module AC(in1,out1,clk,re,clear);
 	input clk,re,clear;
-	input [9:0]in1;
-	output [9:0]out1;
-	reg [9:0]out1;
+	input [15:0]in1;
+	output [15:0]out1;
+	reg [15:0]out1;
 	
 	always @(posedge clk)
     begin
 		if (re)
 			out1 <= in1;
 		if(clear)
-			out1 <= 10'b0;
+			out1 <= 16'b0000000000000000;
 	end
 	
 endmodule

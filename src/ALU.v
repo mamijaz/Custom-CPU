@@ -22,30 +22,49 @@ module ALU(clk,in1,in2,out1,flag,opcode);
 
 	input clk;
 	input [7:0]in1;
-	input [9:0]in2;
+	input [15:0]in2;
 	input [2:0]opcode;
-	output [9:0]out1;
-	reg [9:0]out1;
+	output [15:0]out1;
+	reg [15:0]out1;
 	output flag;
 	reg flag;
 	
-	parameter ADD 	= 3'b001;
-    parameter SUB = 3'b010;
-    parameter INC  = 3'b011;
-    parameter SHIFT  = 3'b100;
+	parameter ADD  	   = 3'b001;
+    parameter SUB      = 3'b010;
+    parameter INC      = 3'b011;
+    parameter R_SHIFT  = 3'b100;
+    parameter L_SHIFT  = 3'b101;
 
 	always @(negedge clk)
 	begin
 		case (opcode)
-			ADD   : out1 <= in2 + in1;
-			SUB   : out1 <= in2 - in1;
-			INC   : out1 <= in2 + 1'b1;
-			SHIFT : out1 <= in2 >> 2;
+			ADD : begin
+			     out1 <= in2 + in1;
+			     if((in2 + in1) >= 0)
+                      flag <= 1'b0;
+			end
+			SUB : begin
+			     out1 <= in2 - in1;
+			     if((in2 - in1) == 0)
+                      flag <= 1'b1;
+                 else
+                      flag <= 1'b0;
+			end
+			INC : begin
+			     out1 <= in2 + 16'b0000000000000001;	
+                 flag <= 1'b0;
+			end
+			R_SHIFT : begin
+			     out1 <= in2 >> 1;
+			     if((in2 >> 1) == 0)
+                       flag <= 1'b1;
+                 else
+                       flag <= 1'b0;
+			end
+			L_SHIFT : begin
+			     out1 <= in2 << 1;
+			end
 		endcase
-		if(out1)
-			flag <= 1'b1;
-		else
-			flag <= 1'b0;
 	end
 	
 endmodule

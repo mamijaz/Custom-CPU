@@ -25,15 +25,36 @@ module ControlUnit(opcode,flag,signals,clk);
 	reg [13:0]signals;
 	reg [4:0]state;
 	
-	parameter READ 	= 4'b0001;
-	parameter WRITE = 4'b0010;
-	parameter JPNZ 	= 4'b0011;
-	parameter CLAC 	= 4'b0100;
-	parameter ADD 	= 4'b0101;
-	parameter SUB 	= 4'b0110;
-	parameter SHIFT	= 4'b0111;
-	parameter INC 	= 4'b1000;
+	parameter READ 	   = 4'b0001;
+	parameter WRITE    = 4'b0010;
+	parameter JPNZ 	   = 4'b0011;
+	parameter CLAC 	   = 4'b0100;
+	parameter ADD 	   = 4'b0101;
+	parameter SUB 	   = 4'b0110;
+	parameter R_SHIFT  = 4'b0111;
+	parameter L_SHIFT  = 4'b1000;
+	parameter INC 	   = 4'b1001;
 	
+	parameter FETCH1 	= 5'b00001;
+    parameter FETCH2    = 5'b00010;
+    parameter FETCH3    = 5'b00011;
+    parameter MEM1      = 5'b00100;
+    parameter MEM2      = 5'b00101;
+    parameter MEM3      = 5'b00110;
+    parameter MEM4      = 5'b00111;
+    parameter READ1     = 5'b01000;
+    parameter READ2     = 5'b01001;
+    parameter WRITE1    = 5'b01010;
+    parameter CLAC1     = 5'b01011;
+    parameter ADD1      = 5'b01100;
+    parameter SUB1      = 5'b01101;
+    parameter R_SHIFT1  = 5'b01110;
+    parameter L_SHIFT1  = 5'b01111;
+    parameter INC1      = 5'b10000;
+    parameter JPNZ1     = 5'b10001;
+    parameter JPNZ2     = 5'b10010;
+    parameter JPNZ3     = 5'b10011;
+    	
 	initial
 	begin
 		state <=5'b00001;
@@ -43,132 +64,141 @@ module ControlUnit(opcode,flag,signals,clk);
 	always @(posedge clk)
 		begin
 		case (state)
-			1:begin
+			FETCH1 : begin
 				signals <= 14'b10000100000000;
-				state <=2;
+				state <= FETCH2;
 			end
-			2:begin
+			FETCH2 : begin
 				signals <= 14'b00001000010000;
-				state <=3;
+				state <= FETCH3;
 			end
-			3:begin
-				if(opcode==READ || opcode==WRITE)
+			FETCH3 : begin
+				if(opcode == READ || opcode == WRITE)
 				begin
 				    signals <= 14'b10000100000000;
-					state <=4;
+					state <= MEM1;
 				end
-				else if(opcode==CLAC)
+				else if(opcode == CLAC)
 				begin
 				    signals <= 14'b00000000001000;
-					state <=11;
+					state <= CLAC1;
 				end
-				else if(opcode==ADD)
+				else if(opcode == ADD)
 				begin
 				    signals <= 14'b00100000000001;
-					state <=12;
+					state <= ADD1;
 				end
-				else if(opcode==SUB)
+				else if(opcode == SUB)
 				begin
 				    signals <= 14'b00100000000010;
-					state <=13;
+					state <= SUB1;
 				end
-				else if(opcode==SHIFT)
+				else if(opcode == R_SHIFT)
 				begin
 				    signals <= 14'b00100000000100;
-					state <=14;
+					state <= R_SHIFT1;
 				end
-				else if(opcode==INC)
+				else if(opcode == L_SHIFT)
+                begin
+                    signals <= 14'b00100000000101;
+                    state <= L_SHIFT1;
+                end
+				else if(opcode == INC)
 				begin
 				    signals <= 14'b00100000000011;
-					state <=15;
+					state <= INC1;
 				end
-				else if(opcode==JPNZ)
-					if(flag)
+				else if(opcode == JPNZ)
+					if(~flag)
 					begin
 					    signals <= 14'b10000100000000;
-						state <=4;
+						state <= MEM1;
 					end
 					else
 					begin
 					    signals <= 14'b10000000000000;
-						state <=17;
+						state <= JPNZ2;
 					end
 			end
-			4:begin
+			MEM1 : begin
 			    signals <= 14'b00001010000000;
-				state <=5;
+				state <= MEM2;
 			end
-			5:begin
+			MEM2 : begin
 			    signals <= 14'b10000100000000;
-				state <=6;
+				state <= MEM3;
 			end
-			6:begin
-				if(opcode==READ || opcode==WRITE)
+			MEM3 : begin
+				if(opcode == READ || opcode == WRITE)
 				begin
 				    signals <= 14'b00010000000000;
-					state <=7;
+					state <= MEM4;
 				end
-				else if(opcode==JPNZ)
+				else if(opcode == JPNZ)
 				begin
 				    signals <= 14'b01000000000000;
-					state <=16;
+					state <= JPNZ1;
 				end
 			end
-			7:begin
-				if(opcode==READ)
+			MEM4 : begin
+				if(opcode == READ)
 				begin
 				    signals <= 14'b00000100000000;
-					state <=8;
+					state <= READ1;
 				end
-				else if(opcode==WRITE)
+				else if(opcode == WRITE)
 				begin
 				    signals <= 14'b00000000100000;
-					state <=10;
+					state <= CLAC1;
 				end
 			end
-			8:begin
+			READ1 : begin
 				signals <= 14'b00000001000000;
-				state <=9;
+				state <= READ2;
 			end
-			9:begin
+			READ2 : begin
                 signals <= 14'b00001000000000;
-                state <=1;
+                state <= FETCH1;
             end
-			10:begin
+			WRITE1 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			11:begin
+			CLAC1 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			12:begin
+			ADD1 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			13:begin
+			SUB1 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			14:begin
+			R_SHIFT1 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			15:begin
+			L_SHIFT1 : begin
+                signals <= 14'b00001000000000;
+                state <= FETCH1;
+            end
+			INC1 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			16:begin
+			JPNZ1 : begin
 			    signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
-			17:begin
+			JPNZ2 : begin
 				signals <= 14'b10000000000000;
-				state <=17;
+				state <= JPNZ3;
 			end
-			18:begin
+			JPNZ3 : begin
 				signals <= 14'b00001000000000;
-				state <=1;
+				state <= FETCH1;
 			end
 		endcase
 	end

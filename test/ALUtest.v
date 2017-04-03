@@ -27,11 +27,11 @@ module ALUtest;
 	// Inputs
 	reg clk;
 	reg [7:0] in1;
-	reg [9:0] in2;
+	reg [15:0] in2;
 	reg [2:0] opcode;
 
 	// Outputs
-	wire [9:0] out1;
+	wire [15:0] out1;
 	wire flag;
 
 	// Instantiate the Unit Under Test (UUT)
