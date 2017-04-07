@@ -149,7 +149,7 @@ module ControlUnit(opcode,flag,signals,clk);
 				else if(opcode == WRITE)
 				begin
 				    signals <= 14'b00000000100000;
-					state <= CLAC1;
+					state <= WRITE1;
 				end
 			end
 			READ1 : begin
